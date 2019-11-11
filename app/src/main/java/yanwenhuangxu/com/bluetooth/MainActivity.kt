@@ -74,9 +74,6 @@ class MainActivity : AppCompatActivity() {
             bluetoothIv.setImageResource(R.drawable.ic_action_on)
             statusBluetoothTv.text = application.getString(R.string.bt_on);
         }
-        if (btAdapter.isDiscovering) {
-            discoverableTv.text = application.getString(R.string.dis_on)
-        }
 
         // Register for broadcasts on BluetoothAdapter state change
         val filter1 = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
