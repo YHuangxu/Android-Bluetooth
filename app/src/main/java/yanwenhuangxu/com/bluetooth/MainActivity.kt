@@ -3,6 +3,7 @@ package yanwenhuangxu.com.bluetooth
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.widget.Toast
@@ -13,7 +14,7 @@ import android.content.IntentFilter
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_ENABLE_BT = 0
-
+    private val deviceList = ArrayList<BluetoothDevice>()
     private val mReceiver1 = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
@@ -50,7 +51,8 @@ class MainActivity : AppCompatActivity() {
                 when (state) {
                     BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE -> discoverableTv.text =
                         application.getString(R.string.dis_on)
-                    BluetoothAdapter.SCAN_MODE_NONE -> application.getString(R.string.dis_off)
+                    BluetoothAdapter.SCAN_MODE_NONE -> discoverableTv.text =
+                        application.getString(R.string.dis_off)
                 }
             }
         }
@@ -66,13 +68,16 @@ class MainActivity : AppCompatActivity() {
         if (!this.packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)){
             statusBluetoothTv.text = application.getString(R.string.not_supported)
         }
-        //set image according to bluetooth status(on/off)
+        //set image/status  according to bluetooth status(on/off)
         bluetoothIv.setImageResource(R.drawable.ic_action_off)
         statusBluetoothTv.text = application.getString(R.string.bt_off);
         discoverableTv.text = application.getString(R.string.dis_off);
         if (btAdapter.isEnabled) {
             bluetoothIv.setImageResource(R.drawable.ic_action_on)
             statusBluetoothTv.text = application.getString(R.string.bt_on);
+        }
+        if (btAdapter.scanMode != BluetoothAdapter.SCAN_MODE_NONE) {
+            discoverableTv.text = application.getString(R.string.dis_on)
         }
 
         // Register for broadcasts on BluetoothAdapter state change
@@ -113,8 +118,11 @@ class MainActivity : AppCompatActivity() {
         pairedBtn.setOnClickListener {
             val pairedDevices = btAdapter.bondedDevices
             if (btAdapter.isEnabled) {
-                for (device in pairedDevices) {
-                    pairedTv.append(device.name + " : " +device.address + "\n")
+                deviceList.clear()
+                pairedTv.text = null
+                deviceList.addAll(pairedDevices)
+                for (device in deviceList) {
+                    pairedTv.append(device.name + " : " + device.address + "\n")
                 }
             } else {
                 Toast.makeText(this, application.getString(R.string.turn_bt_on_before_get_paired), Toast.LENGTH_SHORT).show();
