@@ -100,6 +100,7 @@ class MainActivity : AppCompatActivity() {
 
         //off btn click
         offBtn.setOnClickListener {
+            clearDeviceList()
             if (btAdapter.isEnabled) {
                 btAdapter.disable();
                 bluetoothIv.setImageResource(R.drawable.ic_action_off)
@@ -118,8 +119,7 @@ class MainActivity : AppCompatActivity() {
         pairedBtn.setOnClickListener {
             val pairedDevices = btAdapter.bondedDevices
             if (btAdapter.isEnabled) {
-                deviceList.clear()
-                pairedTv.text = null
+                clearDeviceList()
                 deviceList.addAll(pairedDevices)
                 for (device in deviceList) {
                     pairedTv.append(device.name + " : " + device.address + "\n")
@@ -128,5 +128,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, application.getString(R.string.turn_bt_on_before_get_paired), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private fun clearDeviceList() {
+        deviceList.clear()
+        pairedTv.text = null
     }
 }
