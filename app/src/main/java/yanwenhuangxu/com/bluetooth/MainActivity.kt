@@ -13,7 +13,6 @@ import android.content.Context
 import android.content.IntentFilter
 
 class MainActivity : AppCompatActivity() {
-    private val REQUEST_ENABLE_BT = 0
     private val deviceList = ArrayList<BluetoothDevice>()
     private val mReceiver1 = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -92,9 +91,12 @@ class MainActivity : AppCompatActivity() {
         onBtn.setOnClickListener() {
             if (!btAdapter.isEnabled) {
                 val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(intent, REQUEST_ENABLE_BT)
+                startActivity(intent)
             } else {
-                Toast.makeText(this, application.getString(R.string.bt_already_on), Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                    this,
+                    application.getString(R.string.bt_already_on),
+                    Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -103,9 +105,10 @@ class MainActivity : AppCompatActivity() {
             clearDeviceList()
             if (btAdapter.isEnabled) {
                 btAdapter.disable();
-                bluetoothIv.setImageResource(R.drawable.ic_action_off)
             } else {
-                Toast.makeText(this, application.getString(R.string.bt_already_off), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                    application.getString(R.string.bt_already_off),
+                    Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -125,7 +128,10 @@ class MainActivity : AppCompatActivity() {
                     pairedTv.append(device.name + " : " + device.address + "\n")
                 }
             } else {
-                Toast.makeText(this, application.getString(R.string.turn_bt_on_before_get_paired), Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                    this,
+                    application.getString(R.string.turn_bt_on_before_get_paired),
+                    Toast.LENGTH_SHORT).show();
             }
         }
     }
