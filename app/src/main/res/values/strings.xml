@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Bluetooth</string>
+    <string name="not_supported">Bluetooth is NOT supported by this device</string>
+    <string name="turn_bt_on_before_get_paired">Please turn on Bluetooth first</string>
+    <string name="bt_on">Bluetooth : On</string>
+    <string name="bt_off">Bluetooth : Off</string>
+    <string name="turning_bt_on">Turning Bluetooth on ...</string>
+    <string name="turning_bt_off">Turning Bluetooth off ...</string>
+    <string name="bt_already_on">Bluetooth is already on</string>
+    <string name="bt_already_off">Bluetooth is already off</string>
+    <string name="dis_on">Discoverable : On</string>
+    <string name="dis_off">Discoverable : Off</string>
+</resources>
