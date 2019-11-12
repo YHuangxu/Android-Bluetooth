@@ -63,6 +63,14 @@
         android:layout_height="wrap_content"
         android:text="Get Paired Devices"
         style="@style/Base.Widget.AppCompat.Button"/>
+    <!--Get list of scanned devices btn-->
+    <Button
+        android:id="@+id/scanBtn"
+        android:minWidth="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="scan Devices"
+        style="@style/Base.Widget.AppCompat.Button"/>
     <!--Show paired devices here-->
     <TextView
         android:id="@+id/pairedTv"

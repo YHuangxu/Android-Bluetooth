@@ -12,6 +12,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
 
+
+
+
+
+
 class MainActivity : AppCompatActivity() {
     private val deviceList = ArrayList<BluetoothDevice>()
     private val mReceiver1 = object : BroadcastReceiver() {
@@ -134,10 +139,17 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT).show();
             }
         }
+
+        scanBtn.setOnClickListener {
+            val intent = Intent(this, FoundBTDevices::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun clearDeviceList() {
         deviceList.clear()
         pairedTv.text = null
     }
+
 }
