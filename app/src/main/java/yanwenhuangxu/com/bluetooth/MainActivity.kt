@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
                     BluetoothAdapter.STATE_TURNING_ON -> statusBluetoothTv.text = application.getString(R.string.turning_bt_on)
                     BluetoothAdapter.STATE_TURNING_OFF -> statusBluetoothTv.text = application.getString(R.string.turning_bt_off)
                     BluetoothAdapter.STATE_ON -> {
-                        statusBluetoothTv.text=application.getString(R.string.bt_on);
+                        statusBluetoothTv.text=application.getString(R.string.bt_on)
                         bluetoothIv.setImageResource(R.drawable.ic_action_on)
                     }
                     BluetoothAdapter.STATE_OFF -> {
-                        statusBluetoothTv.text=application.getString(R.string.bt_off);
+                        statusBluetoothTv.text=application.getString(R.string.bt_off)
                         bluetoothIv.setImageResource(R.drawable.ic_action_off)
                     }
                 }
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //adapter
-    var btAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    private var btAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,11 +69,11 @@ class MainActivity : AppCompatActivity() {
         }
         //set image/status  according to bluetooth status(on/off)
         bluetoothIv.setImageResource(R.drawable.ic_action_off)
-        statusBluetoothTv.text = application.getString(R.string.bt_off);
-        discoverableTv.text = application.getString(R.string.dis_off);
+        statusBluetoothTv.text = application.getString(R.string.bt_off)
+        discoverableTv.text = application.getString(R.string.dis_off)
         if (btAdapter.isEnabled) {
             bluetoothIv.setImageResource(R.drawable.ic_action_on)
-            statusBluetoothTv.text = application.getString(R.string.bt_on);
+            statusBluetoothTv.text = application.getString(R.string.bt_on)
         }
         if (btAdapter.scanMode != BluetoothAdapter.SCAN_MODE_NONE) {
             discoverableTv.text = application.getString(R.string.dis_on)
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(mReceiver2, filter2)
 
         //on btn click
-        onBtn.setOnClickListener() {
+        onBtn.setOnClickListener {
             if (!btAdapter.isEnabled) {
                 val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 startActivity(intent)
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this,
                     application.getString(R.string.bt_already_on),
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -104,11 +104,11 @@ class MainActivity : AppCompatActivity() {
         offBtn.setOnClickListener {
             clearDeviceList()
             if (btAdapter.isEnabled) {
-                btAdapter.disable();
+                btAdapter.disable()
             } else {
                 Toast.makeText(this,
                     application.getString(R.string.bt_already_off),
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this,
                     application.getString(R.string.turn_bt_on_before_get_paired),
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show()
             }
         }
 

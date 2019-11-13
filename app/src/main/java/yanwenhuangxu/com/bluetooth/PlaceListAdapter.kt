@@ -2,6 +2,8 @@ package yanwenhuangxu.com.bluetooth
 
 import android.bluetooth.BluetoothDevice
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class PlaceListAdapter(private val list:ArrayList<BluetoothDevice>,
-                       private val context: Context) : RecyclerView.Adapter<PlaceListAdapter.ViewHolder>() {
+                       private val context: Context) : RecyclerView.Adapter<PlaceListAdapter.ViewHolder>(),
+    Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        TODO("list"),
+        TODO("context")
+    ) {
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(list[position])
@@ -30,12 +39,30 @@ class PlaceListAdapter(private val list:ArrayList<BluetoothDevice>,
     class ViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
 
         fun bindItem(bluetoothDevice: BluetoothDevice) {
-            var name = itemView.findViewById(R.id.tvDeviceName) as TextView
-            var address = itemView.findViewById(R.id.tvDeviceAddress) as TextView
+            val name = itemView.findViewById(R.id.tvDeviceName) as TextView
+            val address = itemView.findViewById(R.id.tvDeviceAddress) as TextView
             name.text = bluetoothDevice.name
             address.text = bluetoothDevice.address
         }
 
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<PlaceListAdapter> {
+        override fun createFromParcel(parcel: Parcel): PlaceListAdapter {
+            return PlaceListAdapter(parcel)
+        }
+
+        override fun newArray(size: Int): Array<PlaceListAdapter?> {
+            return arrayOfNulls(size)
+        }
     }
 }
 
