@@ -65,6 +65,10 @@ class FoundBTDevices : AppCompatActivity() {
         mBluetoothAdapter!!.cancelDiscovery()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(mReceiver)
+    }
 
     private fun checkBTPermissions() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {

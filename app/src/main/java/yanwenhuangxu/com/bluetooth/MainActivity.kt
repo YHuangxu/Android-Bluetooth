@@ -147,4 +147,10 @@ class MainActivity : AppCompatActivity() {
         pairedTv.text = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(mReceiver1)
+        unregisterReceiver(mReceiver2)
+    }
+
 }
