@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class PlaceListAdapter(private val list:ArrayList<BluetoothDevice>,
                        private val context: Context) : RecyclerView.Adapter<PlaceListAdapter.ViewHolder>() {
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItem(list[position])
     }
@@ -26,14 +27,16 @@ class PlaceListAdapter(private val list:ArrayList<BluetoothDevice>,
     }
 
 
-    class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
+
         fun bindItem(bluetoothDevice: BluetoothDevice) {
             var name = itemView.findViewById(R.id.tvDeviceName) as TextView
             var address = itemView.findViewById(R.id.tvDeviceAddress) as TextView
-
             name.text = bluetoothDevice.name
             address.text = bluetoothDevice.address
         }
+
     }
 }
+
 

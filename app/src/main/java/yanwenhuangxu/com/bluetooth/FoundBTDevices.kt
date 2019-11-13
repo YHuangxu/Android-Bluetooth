@@ -21,9 +21,29 @@ import androidx.recyclerview.widget.RecyclerView
 class FoundBTDevices : AppCompatActivity() {
     private var mBluetoothAdapter: BluetoothAdapter? = null
     private var arrayOfFoundBTDevices: ArrayList<BluetoothDevice>? = null
+    val mReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val action = intent.action
+            //When discovery finds a device
+            if (BluetoothDevice.ACTION_FOUND == action) {
+                // Get the bluetoothDevice object from the Intent
+                val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                if (arrayOfFoundBTDevices == null) {
+                    arrayOfFoundBTDevices = ArrayList<BluetoothDevice>()
+                }
+                if (!arrayOfFoundBTDevices!!.contains(device)) {
+                    arrayOfFoundBTDevices!!.add(device)
+                }
+                listAdapter = PlaceListAdapter(arrayOfFoundBTDevices!!, applicationContext)
+                lvNewDevices.adapter = listAdapter
+                listAdapter!!.notifyDataSetChanged()
+            }
+        }
+    }
 
     private var listAdapter: PlaceListAdapter?=null
     private var layoutManager: RecyclerView.LayoutManager? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.scan_device_list)
@@ -31,67 +51,17 @@ class FoundBTDevices : AppCompatActivity() {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
         lvNewDevices.layoutManager = layoutManager
+        lvNewDevices.adapter = listAdapter
 
-        displayListOfFoundDevices()
-    }
-
-    private fun displayListOfFoundDevices() {
-        arrayOfFoundBTDevices = ArrayList<BluetoothDevice>()
-
-        // start looking for bluetooth devices
         mBluetoothAdapter!!.startDiscovery()
 
-        // Discover new devices
-        // Create a BroadcastReceiver for ACTION_FOUND
-        val mReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                val action = intent.action
-                // When discovery finds a device
-                if (BluetoothDevice.ACTION_FOUND == action) {
-                    // Get the bluetoothDevice object from the Intent
-                    val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                    arrayOfFoundBTDevices!!.add(device)
-//                    var mDeviceListAdapter = FoundBTDevicesAdaptor(applicationContext, R.layout.adpater,
-//                        arrayOfFoundBTDevices!!
-//                    )
-                    listAdapter = PlaceListAdapter(arrayOfFoundBTDevices!!, applicationContext)
-                    lvNewDevices.adapter = listAdapter
-                    listAdapter!!.notifyDataSetChanged()
-                }
-            }
-        }
-
-
-        if (mBluetoothAdapter?.isDiscovering!!) {
-            mBluetoothAdapter!!.cancelDiscovery()
-
-
-            //check BT permissions in manifest
-            checkBTPermissions()
-
-            mBluetoothAdapter!!.startDiscovery()
-            val discoverDevicesIntent = IntentFilter(BluetoothDevice.ACTION_FOUND)
-            registerReceiver(mReceiver, discoverDevicesIntent)
-        }
-        if (!mBluetoothAdapter!!.isDiscovering()) {
-
-            //check BT permissions in manifest
-            checkBTPermissions()
-
-            mBluetoothAdapter!!.startDiscovery()
-            val discoverDevicesIntent = IntentFilter(BluetoothDevice.ACTION_FOUND)
-            registerReceiver(mReceiver, discoverDevicesIntent)
-        }
-        // Register the BroadcastReceiver
-//        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-//        registerReceiver(mReceiver, filter)
-
-
+        // Register for broadcasts
+        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+        registerReceiver(mReceiver, filter)
     }
 
     override fun onPause() {
         super.onPause()
-
         mBluetoothAdapter!!.cancelDiscovery()
     }
 

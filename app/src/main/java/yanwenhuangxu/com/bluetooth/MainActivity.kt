@@ -12,11 +12,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
 
-
-
-
-
-
 class MainActivity : AppCompatActivity() {
     private val deviceList = ArrayList<BluetoothDevice>()
     private val mReceiver1 = object : BroadcastReceiver() {
